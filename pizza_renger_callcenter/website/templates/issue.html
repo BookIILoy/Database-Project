@@ -1,0 +1,269 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+        .profile img {
+            width: 80px; 
+            height: 80px; 
+        }
+        
+        .main-content {
+            padding-top: 20px;
+        }
+        
+        .order-page {
+            margin-top: 25px;
+        }
+        
+        .order-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .order-search {
+            display: flex;
+            align-items: center;
+            margin-left: 50px; /* Move to the right */
+        }
+        
+        .order-search label {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .order-search input {
+            padding: 5px 10px;
+            border: 1px solid #4d4a4a;
+            border-radius: 4px;
+        }
+        
+        .new-order-button {
+            display: flex;
+            align-items: center;
+            margin-right: 100px; /* Move to the left */
+        }
+        
+        .new-order {
+            padding: 8px 16px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .order-table {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ffffff;
+        }
+        
+        th {
+            background-color: rgb(177, 206, 219);
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>P<span>izza Ranger</span></h3>
+        </div>
+        
+        <div class="side-content">
+            <div class="profile">
+                <img src="{% static 'css/pizza_logo.png' %}" alt="Flaticon Icon">
+                <!--<h4>Omar Yusoh</h4>
+                <small>Manager</small>-->
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'home' %}">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'issue' %}" class="active">
+                            <span class="las la-file-alt"></span>
+                            <small>Issues</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'membership' %}">
+                            <span class="las la-address-card"></span>
+                            <small>Membership</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'incoming_call' %}">
+                            <span class="las la-phone-volume"></span>
+                            <small>Calls</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'order' %}" >
+                            <span class="las la-shopping-cart"></span>
+                            <small>Orders</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'report' %}">
+                            <span class="las la-chalkboard"></span>
+                            <small>Reports</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="setting.html">
+                            <span class="las la-cog"></span>
+                            <small>Settings</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">        
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                
+                <div class="header-menu">
+                    <label for="">
+                        <span class="las la-search"></span>
+                    </label>
+                    
+                    <div class="notify-icon">
+                        <span class="las la-envelope"></span>
+                        <span class="notify">4</span>
+                    </div>
+                    
+                    <div class="notify-icon">
+                        <span class="las la-bell"></span>
+                        <span class="notify">3</span>
+                    </div>
+                    
+                    <div class="user">
+                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                        <a href="{% url 'logout' %}">
+                            <span class="las la-power-off"></span>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header><br><br>
+        <div class="page-header">
+            <h1>Issue</h1>
+            <small>Home / Issue</small>
+        </div>
+        <div class="order-page">
+            <div class="order-page-header">
+                <div class="add">
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <span>Search by</span>
+                    <form method="POST" action="{% url 'issue' %}">
+                        {% csrf_token %}
+                        <select name="issue_column">
+                            <option value="priority">Priority</option>
+                            <option value="issue_topic">Issue</option>
+                            <option value="issue_id">Issue id</option>
+                            <option value="staff_fname">Staff First Name</option>
+                            <option value="issuer">Staff id</option>
+                            <option value="is_handled">Process</option>
+                        </select>
+                        <input type="search" placeholder="Search" class="record-search" name = "keyword">
+                        &nbsp;
+                        <button type = "submit">
+                            <span class="las la-search"></span>
+                            Search
+                        </button>
+                    </form>
+                    <br>
+                </div>
+                <div class="new-order-button">
+                    <a href="{% url 'add_issue' %}" class="new-order">+ Add issue</a>
+                </div>
+            </div>
+            <div class="order-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Priority</th>
+                            <th>Issue ID</th>
+                            <th>Staff ID</th>
+                            <th>Staff Name</th>
+                            <th>Issue</th>
+                            <th>Process</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if issues %}
+                        {% for issue in issues %}
+                        <tr>
+                            <td>
+                                {% if issue.priority == 1 %}
+                                Normal
+                                {% elif issue.priority == 2 %}
+                                Important
+                                {% else %}
+                                Urgent
+                                {% endif %}
+                            </td>
+                            <td>{{issue.issue_id}}</td>
+                            <td>{{issue.issuer}}</td>
+                            <td>{{issue.staff_fname}} {{issue.staff_lname}}</td>
+                            <td>{{issue.issue_topic}}</td>
+                            <td>
+                                {% if issue.is_handled == 1%}
+                                Solved
+                                {% else %}
+                                Unsolved
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <a href="{% url 'issue_record' issue.issue_id %}">
+                                        <span class="las la-eye"></span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

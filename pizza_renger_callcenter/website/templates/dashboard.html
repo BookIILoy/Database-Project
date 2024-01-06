@@ -1,0 +1,328 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+        .profile img {
+            width: 80px; 
+            height: 80px;
+            border-radius: 50%; 
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>P<span>izza Ranger</span></h3>
+        </div>
+        
+        <div class="side-content">
+            <div class="profile">
+                <img src="{% static 'css/pizza_logo.png' %}" alt="Flaticon Icon">
+                <!--<h4>Omar Yusoh</h4>
+                <small>Manager</small>-->
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'home' %}" class="active">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    <li>
+                        <a href="{% url 'issue' %}">
+                            <span class="las la-file-alt"></span>
+                            <small>Issues</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'membership' %}">
+                            <span class="las la-address-card"></span>
+                            <small>Membership</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{%url 'incoming_call' %}">
+                            <span class="las la-phone-volume"></span>
+                            <small>Calls</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{%url 'order' %}">
+                            <span class="las la-shopping-cart"></span>
+                            <small>Orders</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{%url 'report' %}">
+                            <span class="las la-chalkboard"></span>
+                            <small>Reports</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'home' %}">
+                            <span class="las la-cog"></span>
+                            <small>Settings</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+    
+    <div class="main-content">
+        
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                
+                <div class="header-menu">
+                    
+                    <div class="notify-icon">
+                        <span class="las la-envelope"></span>
+                        <span class="notify">4</span>
+                    </div>
+    
+                    <div class="notify-icon">
+                        <span class="las la-bell"></span>
+                        <span class="notify">3</span>
+                    </div>
+                    
+                    <div class="user">
+                    <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                        <a href="{% url 'logout' %}">
+                            <span class="las la-power-off"></span>
+                        <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        
+        <main>
+            <div class="page-header">
+                <h1>Today Dashboard</h1>
+                <small>Home / Dashboard</small>
+            </div>
+            
+            <div class="page-content">
+            
+                <div class="analytics">
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>
+                                {{order_received}}
+                            </h2>
+                            <span class="las la-bell"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Order Received</small>
+                            
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>{{order_delivered}}</h2>
+                            <span class="las la-truck"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Order Deliverd</small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>
+                                {{net_earning}}
+                            </h2>
+                            <span class="las la-comment-dollar"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Net earnings</small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>{{issue_received}}</h2>
+                            <span class="las la-comment"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Issue Receive</small>
+                            
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>{{issue_unsolved}}</h2>
+                            <span class="las la-frown"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Issue Unsolved</small>
+                        
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>{{issue_solved}}</h2>
+                            <span class="las la-paste"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Issue Solved</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="records table-responsive">
+
+                    <div class="record-header">
+                        <h2>Order</h2>
+                        <a href = "{% url 'order' %}">
+                            <span class="las la-bars"></span>
+                        </a>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th><span class="las la-sort"></span> Customer Name</th>
+                                    <th><span class="las la-sort"></span> Address</th>
+                                    <th><span class="las la-sort"></span> Branch</th>
+                                    <th><span class="las la-sort"></span> Tel No.</th>
+                                    <th><span class="las la-sort"></span> Status</th>
+                                    <th><span class="las la-sort"></span> Datail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if order_list %}
+                                {% for order in order_list %}
+                                <tr>
+                                    <td>#{{order.order_id}}</td>
+                                    <td>
+                                        <div class = "client">
+                                            <div class = "client-info">
+                                                <h4>{{order.customer_name}}</h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{order.detail_address}}
+                                    </td>
+                                    <td>
+                                        {{order.branch_address}}
+                                    </td>
+                                    <td>
+                                        {{order.tel_no}}
+                                    </td>
+                                    <td>
+                                        {{order.status}}
+                                    </td>
+                                    <td>
+                                        <div class="actions">
+                                            <a href="{% url 'order_record' order.order_id %}">
+                                                <span class="las la-eye"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+                <br>         
+                <div class="records table-responsive">
+                    <div class="record-header">
+                        <h2>
+                            Issue
+                        </h2>
+                        <a href = "{% url 'issue' %}">
+                            <span class="las la-bars"></span>
+                        </a>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th><span class="las la-sort"></span> Priority</th>
+                                    <th><span class="las la-sort"></span> Category</th>
+                                    <th><span class="las la-sort"></span> Issue Topic</th>
+                                    <th><span class="las la-sort"></span> Issuer</th>
+                                    <th><span class="las la-sort"></span> Status</th>
+                                    <th><span class="las la-sort"></span> Issue Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if issue_list %}
+                                {% for issue in issue_list %}
+                                <tr>
+                                    <td>{{issue.issue_id}}</td>
+                                    <td>
+                                        <div class="client">
+                                            <div class="client-info">
+                                                <h4>
+                                                    {% if issue.priority == 1 %}
+                                                    Normal
+                                                    {% elif issue.priority == 2 %}
+                                                    Important
+                                                    {% else %}
+                                                    Urgent
+                                                    {% endif %}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{issue.category}}
+                                    </td>
+                                    <td>
+                                        {{issue.issue_topic}}
+                                    </td>
+                                    <td>
+                                        {{issue.staff_fname}} {{issue.staff_lname}}
+                                    </td>
+                                    <td>
+                                        {% if issue.is_handled == 1%}
+                                        Solved
+                                        {% else %}
+                                        Unsolved
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="actions">
+                                            <a href="{% url 'issue_record' issue.issue_id %}">
+                                                <span class="las la-eye"></span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>                        
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+</body>
+</html>

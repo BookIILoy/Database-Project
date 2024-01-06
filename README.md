@@ -1,1 +1,1 @@
-# Database-Project
+This project use Django, MySQL and mysql-connector as Python Package.

@@ -1,0 +1,35 @@
+{% load static %}
+<html>
+    <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+        <link rel="stylesheet" href="{% static 'css/test.css' %}" />
+    </head>
+    <body>
+        <center>
+        <div class="main">
+            <br><br>
+            <img class="logo-img" src="{% static 'css/pizza_logo.png' %}" />
+            <br>
+            <p style = "font-family:georgia,garamond,serif;font-size:50px;font-style:italic;">
+                Pizza Ranger
+            </p>
+            <p style = "font-family:georgia,garamond,serif;font-size:15px;font-style:italic;">
+                Best Pizzaria In The World
+            </p>
+            <br><br>
+            <form method = "POST" action = "{% url 'home' %}">
+                {% csrf_token %}
+                <input class="search-input" type="text" placeholder="Username" name = "username" /><br>
+                <input class="search-input" type="password" placeholder="Password" name = "password"/>
+                <div class="btn-wrapper">
+                    <button class="btn" type="submit">Login</button>
+                </div>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        </div>
+        </center>
+    </body>
+</html>

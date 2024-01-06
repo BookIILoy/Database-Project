@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+        .topic {
+            margin-left :30px;
+        }
+        .profile img {
+            width: 80px; 
+            height: 80px; 
+        }
+        .search-input {
+            display: block;
+            width: 400px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            line-height: 24px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+        }
+        textarea {
+            width: 600px;
+            height: 300px;
+            padding: 12px 20px;
+            box-sizing: border-box;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            font-size: 16px;
+            resize: none;
+        }
+        .red-button {
+            display: flex;
+            align-items: center;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>P<span>izza Ranger</span></h3>
+        </div>
+        
+        <div class="side-content">
+            <div class="profile">
+                <img src="{% static 'css/pizza_logo.png' %}" alt="Flaticon Icon">
+                <!-- <h4>Omar Yusoh</h4>
+                <small>Manager</small> -->
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'dashboard' %}">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'issue' %}" class="active">
+                            <span class="las la-file-alt"></span>
+                            <small>Issues</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'membership' %}">
+                            <span class="las la-address-card"></span>
+                            <small>Membership</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'incoming_call' %}">
+                            <span class="las la-phone-volume"></span>
+                            <small>Calls</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'order' %}">
+                            <span class="las la-shopping-cart"></span>
+                            <small>Orders</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'report' %}">
+                            <span class="las la-chalkboard"></span>
+                            <small>Reports</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="setting.html">
+                            <span class="las la-cog"></span>
+                            <small>Settings</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<div class="main-content">
+        
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle">
+                <span class="las la-bars"></span>
+            </label>
+            
+            <div class="header-menu">
+                <label for="">
+                    <span class="las la-search"></span>
+                </label>
+                
+                <div class="notify-icon">
+                    <span class="las la-envelope"></span>
+                    <span class="notify">4</span>
+                </div>
+                
+                <div class="notify-icon">
+                    <span class="las la-bell"></span>
+                    <span class="notify">3</span>
+                </div>
+                
+                <div class="user">
+                
+                    <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                    <a href="{% url 'logout' %}">
+                        <span class="las la-power-off"></span>
+                    <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>  
+<main>
+    <div class="page-header">
+        <h1>Issues</h1>
+        <small>Home / Issues</small>
+    </div>
+    <div class="topic">
+        <div class="topic-info">
+        {% if issue_l %}
+        {% for issue in issue_l %}
+            <br></br><span> Topic :</span> 
+            <input type = "text" placeholder ="{{issue.issue_topic}}" class="search-input" disabled>
+            <span>Category :</span><br>
+            <input type = "text" placeholder ="{{issue.category}}" class="search-input" disabled>
+            
+            <span> Priority : </span><br>
+            {% if issue.priority == 1 %}
+            <input type = "text" placeholder ="Normal" class="search-input" disabled>
+            {% elif issue.priority == 2 %}
+            <input type = "text" placeholder ="Important" class="search-input" disabled>
+            {% else %} 
+            <input type = "text" placeholder ="Urgent" class="search-input" disabled>
+            {% endif %}
+            <span>Detail : </span></br><br>
+            <textarea id="issue-detail" placeholder ="{{issue.detail}}"name="issue-detail" disabled></textarea>
+            <br></br><span>Solution :</span></br><br>
+            {% if issue.is_handled == 1%}
+            <textarea id="issue-solution" placeholder ="{{issue.solution}}" name="issue-solution" disabled></textarea>
+            {% else %}
+            <form method="POST" action = "{% url 'issue_record' issue.issue_id %}">
+                {% csrf_token %}
+                <textarea id="issue-solution" placeholder ="{{issue.solution}}" name="issue_solution"></textarea>
+                <button type = "submit">
+                    Submit
+                </button>
+            </form>
+            {% endif %}
+            <br><br><span> Status :</span>
+            {% if issue.is_handled == 1%}
+            Solved
+            <input type = "text" placeholder ="Solved" class="search-input" disabled>
+            {% else %}
+            <input type = "text" placeholder ="Unsolved" class="search-input" disabled>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+    <div class="button-group">
+        <a href ="{% url 'issue' %}" class="red-button">Exit</a>
+    </div>
+</main>

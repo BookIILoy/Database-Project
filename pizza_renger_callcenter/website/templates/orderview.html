@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Order</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <style>
+        .Nmain-content {
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .main-content {
+            padding-top: 20px;
+        }
+
+        .profile img {
+            width: 80px; 
+            height: 80px; 
+        }
+        
+        .red-button {
+            display: flex;
+            align-items: center;
+            background-color: #ff0000;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .yellow-button {
+            display: flex;
+            align-items: center;
+            background-color: #ffc107;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .timer {
+            margin-left: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+    </head>
+    <body>
+        <input type="checkbox" id="menu-toggle">
+        <div class="sidebar">
+            <div class="side-header">
+                <h3>P<span>izza Ranger</span></h3>
+            </div>
+            
+            <div class="side-content">
+                <div class="profile">
+                    <img src="{% static 'css/pizza_logo.png' %}" alt="Flaticon Icon">
+                    <!--<h4>Omar Yusoh</h4>
+                    <small>Manager</small>-->
+                </div>
+    
+                <div class="side-menu">
+                    <ul>
+                        <li>
+                            <a href="{% url 'dashboard' %}">
+                                <span class="las la-home"></span>
+                                <small>Dashboard</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'issue' %}">
+                                <span class="las la-file-alt"></span>
+                                <small>Issues</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'membership' %}">
+                                <span class="las la-address-card"></span>
+                                <small>Membership</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'incoming_call' %}">
+                                <span class="las la-phone-volume"></span>
+                                <small>Calls</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'order' %}" class="active">
+                                <span class="las la-shopping-cart"></span>
+                                <small>Orders</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'report' %}">
+                                <span class="las la-chalkboard"></span>
+                                <small>Reports</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="setting.html">
+                                <span class="las la-cog"></span>
+                                <small>Settings</small>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <div class="main-content">        
+            <header>
+                <div class="header-content">
+                    <label for="menu-toggle">
+                        <span class="las la-bars"></span>
+                    </label>
+                    
+                    <div class="header-menu">
+                        <label for="">
+                            <span class="las la-search"></span>
+                        </label>
+                        
+                        <div class="notify-icon">
+                            <span class="las la-envelope"></span>
+                            <span class="notify">4</span>
+                        </div>
+                        
+                        <div class="notify-icon">
+                            <span class="las la-bell"></span>
+                            <span class="notify">3</span>
+                        </div>
+                        
+                        <div class="user">
+                            <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                            <a href="{% url 'logout' %}">
+                                <span class="las la-power-off"></span>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+    
+</head>
+
+<body><br><br>
+    <div class="page-header">
+        <h1>Add orders</h1>
+        <small>Orders / Add orders</small>
+    </div>
+    <div class="Nmain-content">
+        <h1>Order Detail</h1>
+        <form method="post">
+            <br>
+            {% for c_d in c_ds %}
+            <div class="form-group">
+                <label for="customer-name">Customer Name</label>
+                <input type="text" placeholder="{{c_d.customer_name}}" id="customer-name" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-address">Customer Address</label>
+                <input type="text" placeholder="{{c_d.detail_address}}" id="customer-address" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-tel">Customer Telephone</label>
+                <input type="text" placeholder="{{c_d.tel_no}}" id="customer-tel" disabled>
+            </div>
+            {% endfor %}
+            
+            {% for m_d in m_ds %}
+            <div class="form-group">
+                <label for="membership-id">Membership ID</label>
+                <input type="text" placeholder="{{m_d.member_id}}" id="membership-id" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="membership-name">Membership Name</label>
+                <input type="text" placeholder="{{m_d.member_fname}} {{m_d.member_mname}} {{m_d.member_lname}}" id="membership-name" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="membership-points">Membership Points</label>
+                <input type="text" placeholder="{{m_d.member_point_gain_or_used}}" id="membership-points" readonly>
+            </div>
+            {% endfor %}
+            
+            {% for c_d in c_ds %}
+            <div class="form-group">
+                <label for="note">Note</label>
+                <textarea id="note"placeholder="{{c_d.side_note}}" disabled></textarea>
+            </div>
+            {% endfor %}
+            
+            <div class="form-group">
+                <label for="note">Selected Menu</label>
+                {% if packages %}
+                {% for package in packages %}
+                    {{package.package_name}} x{{package.count}} <br>
+                {%endfor%}
+                {%endif%}
+                {% if menu_l %}
+                {% for menu in menu_l %}
+                    {{menu.menu_name}} x{{menu.count}}<br>
+                {%endfor%}
+                {%endif%}
+            </div>
+            
+            
+            
+            <div class="button-group">
+                <a class="red-button" onclick="location.href='dashboard.html'">Exit</a>
+                
+            </div>
+        </form>
+    </div>
+</body>
+</html>

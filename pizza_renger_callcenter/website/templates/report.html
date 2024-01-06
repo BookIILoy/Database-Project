@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <title>Reports</title>
+    <style>
+        .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        .section-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+            margin-left: 300px;
+            margin-top: 50px;
+        }
+
+        .section {
+            border: 2px solid #6d6b6b;
+            border-radius: 10px;
+            padding: 10px;
+            flex-basis: 50%;
+            margin-right: 300px;
+        }
+
+        .section2 {
+            border: 2px solid #6d6b6b;
+            border-radius: 10px;
+            padding: 10px;
+            flex-basis: 30%;
+        }
+
+        .shift-schedule-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .shift-schedule-button a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #5c6ac4;
+            color: #ffffff;
+            border-radius: 15%;
+            width: 200px;
+            height: 50px;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .shift-schedule-button a span {
+            margin-right: 5px;
+        }
+
+        .square-box {
+            width: 100%;
+            height: 20px;
+            margin: 20px 0;
+            background-color: #6d6b6b;
+        }
+
+        .histogram-chart {
+            height: 250px;
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>P<span>izza Ranger</span></h3>
+        </div>
+
+        <div class="side-content">
+            <div class="profile">
+                <img src="{% static 'css/pizza_logo.png' %}" alt="Flaticon Icon">
+                <!--<h4>Omar Yusoh</h4>
+                <small>Manager</small>-->
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'dashboard' %}">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'issue' %}">
+                            <span class="las la-file-alt"></span>
+                            <small>Issues</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'membership' %}">
+                            <span class="las la-address-card"></span>
+                            <small>Membership</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'incoming_call' %}">
+                            <span class="las la-phone-volume"></span>
+                            <small>Calls</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'order' %}">
+                            <span class="las la-shopping-cart"></span>
+                            <small>Orders</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'report' %}" class="active">
+                            <span class="las la-chalkboard"></span>
+                            <small>Reports</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="setting.html">
+                            <span class="las la-cog"></span>
+                            <small>Settings</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+
+                <div class="header-menu">
+                    <label for="">
+                        <span class="las la-search"></span>
+                    </label>
+
+                    <div class="notify-icon">
+                        <span class="las la-envelope"></span>
+                        <span class="notify">4</span>
+                    </div>
+
+                    <div class="notify-icon">
+                        <span class="las la-bell"></span>
+                        <span class="notify">3</span>
+                    </div>
+
+                    <div class="user">
+                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                        <a href="{% url 'logout' %}">
+                            <span class="las la-power-off"></span>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <br><br><br>
+        <div class="page-header">
+            <h1>Reports</h1>
+            <small>Home / Reports</small>
+        </div><br><br>
+
+        <title>Reports</title>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    </head>
+    <body>
+        <h1>&#160;&#160;Reports</h1>
+
+        <div class="section-container">
+            <section class="section" id="overview">
+                <h2>Overview</h2>
+                <ul>
+                    <li>Average Talk Time: {{avg_t}} min</li>
+                    <li>Average Queue Time: {{avg_q}} min</li>
+                </ul>
+            </section>
+
+            <section class="section" id="best-selling-products">
+                <h2>Best Selling Products</h2>
+                <ul>
+                    <li>{{top1}}</li>
+                    <li>{{top2}}</li>
+                    <li>{{top3}}</li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="section2" id="number-of-calls">
+            <h2>Number of Calls</h2>
+            <div id="chart"></div>
+        </div>
+
+        <div class="section2" id="call-history">
+            <h2>Call History</h2>
+            <div id="histogram-chart"></div>
+        </div>
+
+        <div class="section2" id="abandon-calls">
+            <h2>Abandon Calls in Queue Today</h2>
+            <div id="abandon-calls-chart"></div>
+        </div>
+
+        <script>
+            const options = {
+                series: [{
+                    name: 'Number of Calls',
+                    data: [{% for num in num_call %} {{num.count}},{% endfor %}]
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false
+                    }
+                },
+                xaxis: {
+                    categories: [{% for num in num_call %} '{{num.MinTime}}-{{num.MaxTime}}',{% endfor %}]
+                },
+            };
+
+            const chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+
+            const histogramOptions = {
+                series: [
+                    {
+                        name: 'Accepted Calls',
+                        data: [{% for call in call_hist %} {{call.accept}},{% endfor %}]
+                    },
+                    {
+                        name: 'Abandoned Calls',
+                        data: [{% for call in call_hist %} {{call.abandon}},{% endfor %}]
+                    }
+                ],
+                chart: {
+                    height: 250,
+                    type: 'bar',
+                    stacked: true,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                    },
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'center',
+                    offsetX: 0,
+                    offsetY: 0,
+                    labels: {
+                        colors: ['#6d6b6b', '#6d6b6b']
+                    }
+                },
+                xaxis: {
+                    categories: [{% for call in call_hist %} '{{call.date}}',{% endfor %}],
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Calls',
+                        style: {
+                            color: '#6d6b6b'
+                        }
+                    },
+                    labels: {
+                        style: {
+                            colors: ['#6d6b6b']
+                        }
+                    }
+                },
+            };
+
+            const histogramChart = new ApexCharts(document.querySelector("#histogram-chart"), histogramOptions);
+            histogramChart.render();
+
+            const abandonCallsOptions = {
+                series: [
+                    {
+                        name: 'Abandon Calls in Queue',
+                        data: [{%for call in abandon_calls%} {{call.count}}, {%endfor%}]
+                    }
+                ],
+                chart: {
+                    height: 250,
+                    type: 'bar',
+                    stacked: true,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                    },
+                },
+                legend: {
+                    show: false
+                },
+                xaxis: {
+                    categories: [{%for call in abandon_calls%} '{{call.MinDate}}-{{call.MaxDate}}', {%endfor%}],
+                    labels: {
+                        style: {
+                            colors: ['#6d6b6b']
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Abandon Calls',
+                        style: {
+                            color: '#6d6b6b'
+                        }
+                    },
+                    labels: {
+                        style: {
+                            colors: ['#6d6b6b']
+                        }
+                    }
+                },
+            };
+
+            const abandonCallsChart = new ApexCharts(document.querySelector("#abandon-calls-chart"), abandonCallsOptions);
+            abandonCallsChart.render();
+        </script>
+    </body>
+</html>
